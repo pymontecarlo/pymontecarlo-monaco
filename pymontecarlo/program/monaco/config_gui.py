@@ -36,7 +36,10 @@ class _MonacoConfigurePanelWidget(_ConfigurePanelWidget):
         self._brw_basedir = DirBrowseWidget()
 
         self._brw_exe = FileBrowseWidget()
-        self._brw_exe.setNameFilter('Application files (*.exe)')
+        if os.name == 'nt':
+            self._brw_exe.setNameFilter('Application files (*.exe)')
+        else:
+            self._brw_exe.setNameFilter('Application files (*)')
 
         # Layouts
         layout = _ConfigurePanelWidget._initUI(self, settings)
