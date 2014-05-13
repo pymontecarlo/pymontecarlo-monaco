@@ -46,7 +46,11 @@ class _MonacoConfigurePanelWidget(_ConfigurePanelWidget):
         layout.addRow('Full path to base directory', self._brw_basedir)
         layout.addRow('Full path to Mccli32.exe (optional)', self._brw_exe)
 
-        # Values
+        # Signals
+        self._brw_basedir.pathChanged.connect(self._onPathChanged)
+        self._brw_exe.pathChanged.connect(self._onPathChanged)
+
+        # Defaults
         if 'monaco' in settings:
             path = getattr(settings.monaco, 'basedir', None)
             try:
@@ -61,6 +65,14 @@ class _MonacoConfigurePanelWidget(_ConfigurePanelWidget):
                 pass
 
         return layout
+
+    def _onPathChanged(self, path):
+        if not path:
+            return
+        if not self._brw_basedir.baseDir():
+            self._brw_basedir.setBaseDir(path)
+        if not self._brw_exe.baseDir():
+            self._brw_exe.setBaseDir(path)
 
     def hasAcceptableInput(self):
         basedir = self._brw_basedir.path()
