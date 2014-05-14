@@ -27,6 +27,7 @@ from pymontecarlo.program.converter import Converter as _Converter
 
 from pymontecarlo.options.particle import ELECTRON
 from pymontecarlo.options.beam import PencilBeam
+from pymontecarlo.options.material import Material
 from pymontecarlo.options.geometry import Substrate
 from pymontecarlo.options.limit import ShowersLimit
 from pymontecarlo.options.detector import \
@@ -38,6 +39,9 @@ from pymontecarlo.options.model import \
 # Globals and constants variables.
 
 class Converter(_Converter):
+
+    PARTICLES = [ELECTRON]
+    MATERIALS = [Material]
     BEAMS = [PencilBeam]
     GEOMETRIES = [Substrate]
     DETECTORS = [PhotonIntensityDetector, PhotonDepthDetector]
@@ -62,11 +66,6 @@ class Converter(_Converter):
 
     def _convert_beam(self, options):
         if not _Converter._convert_beam(self, options):
-            return False
-
-        if options.beam.particle is not ELECTRON:
-            self._warn("Beam particle must be ELECTRON.",
-                       "This options definition was removed.")
             return False
 
         if options.beam.energy_eV > 400e3:
