@@ -34,8 +34,7 @@ from pymontecarlo.options.detector import \
     PhotonIntensityDetector, PhotonDepthDetector
 
 from pymontecarlo.results.result import \
-    (PhotonIntensityResult, create_intensity_dict,
-     PhotonDepthResult, create_photondist_dict)
+    PhotonKey, PhotonIntensityResult, PhotonDepthResult
 
 # Globals and constants variables.
 
@@ -65,9 +64,7 @@ class Importer(_Importer):
         for transition, intensity in row.items():
             transition = from_string(transition.strip())
             enf = (float(intensity.strip()), 0.0)
-
-            intensities.update(create_intensity_dict(transition,
-                                                     enf=enf, et=enf))
+            intensities[PhotonKey(transition, True, PhotonKey.P)] = enf
 
         return PhotonIntensityResult(intensities)
 
@@ -91,10 +88,7 @@ class Importer(_Importer):
         distributions = {}
         for transition, values in data.items():
             transition = from_string(transition.strip())
-
             enf = np.array([rzs, values]).transpose()
-
-            distributions.update(create_photondist_dict(transition,
-                                                        enf=enf, et=enf))
+            distributions[PhotonKey(transition, True, PhotonKey.P)] = enf
 
         return PhotonDepthResult(distributions)

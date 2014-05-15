@@ -51,14 +51,14 @@ class TestImporter(unittest.TestCase):
         jobdir = os.path.join(self._testdata, 'job1')
         results = self.i.import_(self.ops, jobdir)
 
-        self.assertEqual(2, len(results[0]))
+        self.assertEqual(2, len(results))
 
-        result = results[0]['xray']
+        result = results['xray']
         val, unc = result.intensity('Cu La')
         self.assertAlmostEqual(3.473295, val, 4)
         self.assertAlmostEqual(0.0, unc, 4)
 
-        result = results[0]['prz']
+        result = results['prz']
         self.assertTrue(result.exists('Au La', True, False))
         self.assertTrue(result.exists('Au Ma', True, False))
 
