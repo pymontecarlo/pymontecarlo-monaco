@@ -59,7 +59,10 @@ class Importer(_Importer):
 
         with open(intensities_filepath, 'r') as fp:
             reader = csv.DictReader(fp)
-            row = list(reader)[0]
+            try:
+                row = next(reader)
+            except StopIteration:
+                row = {}
 
         for transition, intensity in row.items():
             transition = from_string(transition.strip())
