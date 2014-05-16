@@ -162,7 +162,8 @@ class Worker(_Worker):
                     continue
 
                 if transition.most_probable.dest.ionization_energy_eV < options.beam.energy_eV:
-                    transitions.append(str(transition))
+
+                    transitions.append('%s %s' % (transition.symbol, transition.siegbahn_nogreek))
 
         return transitions
 
@@ -188,7 +189,7 @@ class Worker(_Worker):
                 mat_filepath, sim_filepath, nez_filepath, workdir,
                 detector.takeoffangle_deg, mac_id, ics_id, ip_id]
         args += transitions
-        args = map(str, args)
+        args = list(map(str, args))
         logging.debug('Launching %s', ' '.join(args))
 
         self._status = "Running Monaco's mccli32.exe"
@@ -231,7 +232,7 @@ class Worker(_Worker):
                 mat_filepath, sim_filepath, nez_filepath, workdir,
                 detector.takeoffangle_deg, mac_id, ics_id, ip_id]
         args += transitions
-        args = map(str, args)
+        args = list(map(str, args))
         logging.debug('Launching %s', ' '.join(args))
 
         self._status = "Running Monaco's mccli32.exe"
