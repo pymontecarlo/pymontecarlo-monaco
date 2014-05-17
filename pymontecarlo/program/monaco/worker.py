@@ -136,10 +136,9 @@ class Worker(_Worker):
 
         self._status = "Running Monaco's mccli32.exe"
 
-        self._process = subprocess.Popen(args, stdout=subprocess.PIPE,
-                                         cwd=self._monaco_basedir)
-        self._process.wait()
-        self._process = None
+        self._create_process(args, stdout=subprocess.PIPE,
+                             cwd=self._monaco_basedir)
+        self._join_process()
 
         logging.debug("Monaco's mccli32.exe ended")
 
@@ -194,10 +193,9 @@ class Worker(_Worker):
 
         self._status = "Running Monaco's mccli32.exe"
 
-        self._process = subprocess.Popen(args, stdout=subprocess.PIPE,
-                                         cwd=self._monaco_basedir)
-        self._process.wait()
-        self._process = None
+        self._create_process(args, stdout=subprocess.PIPE,
+                             cwd=self._monaco_basedir)
+        self._join_process()
 
         logging.debug("Monaco's mccli32.exe ended")
 
@@ -237,10 +235,9 @@ class Worker(_Worker):
 
         self._status = "Running Monaco's mccli32.exe"
 
-        self._process = subprocess.Popen(args, stdout=subprocess.PIPE,
-                                         cwd=self._monaco_basedir)
-        self._process.wait()
-        self._process = None
+        self._create_process(args, stdout=subprocess.PIPE,
+                             cwd=self._monaco_basedir)
+        self._join_process()
 
         logging.debug("Monaco's mccli32.exe ended")
 
