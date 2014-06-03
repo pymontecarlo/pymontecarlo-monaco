@@ -32,9 +32,15 @@ import pyxray.element_properties as ep
 # Local modules.
 from pymontecarlo.program.exporter import Exporter as _Exporter
 
+from pymontecarlo.options.beam import PencilBeam
 from pymontecarlo.options.geometry import Substrate
 from pymontecarlo.options.particle import ELECTRON
 from pymontecarlo.options.limit import ShowersLimit
+from pymontecarlo.options.detector import \
+    PhotonIntensityDetector, PhotonDepthDetector
+from pymontecarlo.options.model import \
+    (ELASTIC_CROSS_SECTION, IONIZATION_CROSS_SECTION, IONIZATION_POTENTIAL,
+     ENERGY_LOSS, MASS_ABSORPTION_COEFFICIENT)
 
 # Globals and constants variables.
 
@@ -46,7 +52,20 @@ class Exporter(_Exporter):
         """
         _Exporter.__init__(self)
 
+        self._beam_exporters[PencilBeam] = self._export_dummy
+
         self._geometry_exporters[Substrate] = self._export_geometry_substrate
+
+        self._detector_exporters[PhotonIntensityDetector] = self._export_dummy
+        self._detector_exporters[PhotonDepthDetector] = self._export_dummy
+
+        self._limit_exporters[ShowersLimit] = self._export_dummy
+
+        self._model_exporters[ELASTIC_CROSS_SECTION] = self._export_dummy
+        self._model_exporters[IONIZATION_CROSS_SECTION] = self._export_dummy
+        self._model_exporters[IONIZATION_POTENTIAL] = self._export_dummy
+        self._model_exporters[ENERGY_LOSS] = self._export_dummy
+        self._model_exporters[MASS_ABSORPTION_COEFFICIENT] = self._export_dummy
 
     def _export(self, options, outputdir, *args, **kwargs):
         simfilepath = self._create_sim_file(options, outputdir, *args, **kwargs)
