@@ -31,7 +31,7 @@ from pymontecarlo.ui.gui.util.widget import DirBrowseWidget, FileBrowseWidget
 
 class _MonacoConfigurePanelWidget(_ConfigurePanelWidget):
 
-    def _initUI(self, settings):
+    def _initUI(self):
         # Widgets
         self._brw_basedir = DirBrowseWidget()
 
@@ -42,27 +42,13 @@ class _MonacoConfigurePanelWidget(_ConfigurePanelWidget):
             self._brw_exe.setNameFilter('Application files (*)')
 
         # Layouts
-        layout = _ConfigurePanelWidget._initUI(self, settings)
+        layout = _ConfigurePanelWidget._initUI(self)
         layout.addRow('Full path to base directory', self._brw_basedir)
         layout.addRow('Full path to Mccli32.exe (optional)', self._brw_exe)
 
         # Signals
         self._brw_basedir.pathChanged.connect(self._onPathChanged)
         self._brw_exe.pathChanged.connect(self._onPathChanged)
-
-        # Defaults
-        if 'monaco' in settings:
-            path = getattr(settings.monaco, 'basedir', None)
-            try:
-                self._brw_basedir.setPath(path)
-            except ValueError:
-                pass
-
-            path = getattr(settings.monaco, 'exe', None)
-            try:
-                self._brw_exe.setPath(path)
-            except ValueError:
-                pass
 
         return layout
 
@@ -86,6 +72,20 @@ class _MonacoConfigurePanelWidget(_ConfigurePanelWidget):
             return False
 
         return True
+
+    def setSettings(self, settings):
+        if 'monaco' in settings:
+            path = getattr(settings.monaco, 'basedir', None)
+            try:
+                self._brw_basedir.setPath(path)
+            except ValueError:
+                pass
+
+            path = getattr(settings.monaco, 'exe', None)
+            try:
+                self._brw_exe.setPath(path)
+            except ValueError:
+                pass
 
     def updateSettings(self, settings):
         section = _ConfigurePanelWidget.updateSettings(self, settings)

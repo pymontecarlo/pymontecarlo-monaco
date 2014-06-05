@@ -62,4 +62,18 @@ class _MonacoProgram(Program):
         if not os.access(mccli32_exe, os.X_OK):
             raise AssertionError("Specified Monaco executable (%s) is not executable" % mccli32_exe)
 
+    def autoconfig(self, programs_path):
+        basedir_path = os.path.join(programs_path, self.alias)
+        if not os.path.exists(basedir_path):
+            return False
+
+        exe_path = os.path.join(programs_path, self.alias, 'Mccli32.exe')
+        if not os.path.exists(exe_path):
+            return False
+
+        settings = get_settings()
+        settings.add_section('monaco').basedir = basedir_path
+        settings.add_section('monaco').exe = exe_path
+        return True
+
 program = _MonacoProgram()
