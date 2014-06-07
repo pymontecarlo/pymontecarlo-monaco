@@ -126,7 +126,7 @@ class Worker(_Worker):
             self._run_phirhozs(workdir, options, detector_key, detector,
                                transitions)
 
-        return self._importer.import_(options, workdir)
+        return self.import_(options, workdir)
 
     def _run_simulation(self, options, workdir):
         mat_filepath = os.path.join(workdir, options.name + '.MAT')
