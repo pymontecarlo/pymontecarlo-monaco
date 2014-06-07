@@ -18,6 +18,7 @@ __license__ = "GPL v3"
 
 # Standard library modules.
 import os
+import sys
 
 # Third party modules.
 
@@ -34,8 +35,9 @@ from pymontecarlo.program.monaco.worker import Worker
 class _MonacoProgram(Program):
 
     def __init__(self):
+        autorun = True if sys.platform == 'win32' else False
         Program.__init__(self, 'Monaco', 'monaco', Converter, Worker,
-                          Exporter, Importer)
+                          Exporter, Importer, autorun)
 
     def validate(self):
         settings = get_settings()
