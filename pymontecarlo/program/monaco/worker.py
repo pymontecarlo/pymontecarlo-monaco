@@ -23,6 +23,7 @@ import os
 import logging
 import shutil
 import subprocess
+import locale
 
 try:
     import winreg
@@ -173,6 +174,9 @@ class Worker(_Worker):
         sim_filepath = os.path.join(workdir, options.name + '.SIM')
         nez_filepath = os.path.join(workdir, 'NEZ.1')
 
+        # Take-off angle
+        takeoffangle_deg = locale.str(detector.takeoffangle_deg)
+
         # Find models
         model = list(options.models.iterclass(MASS_ABSORPTION_COEFFICIENT))[0]
         mac_id = _MASS_ABSORPTION_COEFFICIENT_REF.get(model, 0)
@@ -186,7 +190,7 @@ class Worker(_Worker):
         # Launch mccli32.exe
         args = [self._mccli32exe, "int",
                 mat_filepath, sim_filepath, nez_filepath, workdir,
-                detector.takeoffangle_deg, mac_id, ics_id, ip_id]
+                takeoffangle_deg, mac_id, ics_id, ip_id]
         args += transitions
         args = list(map(str, args))
         logging.debug('Launching %s', ' '.join(args))
@@ -215,6 +219,9 @@ class Worker(_Worker):
         sim_filepath = os.path.join(workdir, options.name + '.SIM')
         nez_filepath = os.path.join(workdir, 'NEZ.1')
 
+        # Take-off angle
+        takeoffangle_deg = locale.str(detector.takeoffangle_deg)
+
         # Find models
         model = options.models.find(MASS_ABSORPTION_COEFFICIENT)
         mac_id = _MASS_ABSORPTION_COEFFICIENT_REF.get(model, 0)
@@ -228,7 +235,7 @@ class Worker(_Worker):
         # Launch mccli32.exe
         args = [self._mccli32exe, "phi",
                 mat_filepath, sim_filepath, nez_filepath, workdir,
-                detector.takeoffangle_deg, mac_id, ics_id, ip_id]
+                takeoffangle_deg, mac_id, ics_id, ip_id]
         args += transitions
         args = list(map(str, args))
         logging.debug('Launching %s', ' '.join(args))
