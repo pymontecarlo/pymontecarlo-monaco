@@ -58,7 +58,7 @@ class Importer(_Importer):
         intensities = {}
 
         with open(intensities_filepath, 'r') as fp:
-            reader = csv.DictReader(fp)
+            reader = csv.DictReader(fp, delimiter=';')
             try:
                 row = next(reader)
             except StopIteration:
@@ -66,7 +66,7 @@ class Importer(_Importer):
 
         for transition, intensity in row.items():
             transition = from_string(transition.strip())
-            enf = (float(intensity.strip()), 0.0)
+            enf = (float(intensity.strip().replace(',', '.')), 0.0) # FIXME: Hack to handle locale problem
             intensities[PhotonKey(transition, True, PhotonKey.P)] = enf
 
         return PhotonIntensityResult(intensities)
@@ -78,13 +78,13 @@ class Importer(_Importer):
                                     (name, jobdir))
 
         with open(prz_filepath, 'r') as fp:
-            reader = csv.reader(fp)
+            reader = csv.reader(fp, delimiter=';')
             header = next(reader)
 
             data = {}
             for row in reader:
                 for i, val in enumerate(row):
-                    data.setdefault(header[i], []).append(float(val))
+                    data.setdefault(header[i], []).append(float(val.replace(',', '.'))) # FIXME: Hack to handle locale problem
 
         rzs = np.array(data.pop('rho z'))
 
