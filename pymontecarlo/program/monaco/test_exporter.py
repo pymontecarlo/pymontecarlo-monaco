@@ -38,7 +38,7 @@ class TestExporter(unittest.TestCase):
 
         self.ops = Options('aatest')
         self.ops.beam.energy_eV = 4e3
-        self.ops.geometry.material = \
+        self.ops.geometry.body.material = \
             Material({6: 0.4, 13: 0.6}, absorption_energy_eV={ELECTRON: 234.0})
         self.ops.limits.add(ShowersLimit(1234))
 

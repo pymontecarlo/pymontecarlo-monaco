@@ -22,8 +22,7 @@ from pymontecarlo.options.options import Options
 from pymontecarlo.options.material import Material
 from pymontecarlo.options.limit import ShowersLimit
 from pymontecarlo.options.particle import ELECTRON
-from pymontecarlo.options.detector import \
-    PhotonIntensityDetector, PhotonDepthDetector
+from pymontecarlo.options.detector import PhotonIntensityDetector, PhiZDetector
 
 # Globals and constants variables.
 
@@ -37,7 +36,7 @@ class TestImporter(unittest.TestCase):
         self.ops.geometry.material = \
             Material({6: 0.4, 13: 0.6}, absorption_energy_eV={ELECTRON: 234.0})
         self.ops.detectors['xray'] = PhotonIntensityDetector((0, 1), (2, 3))
-        self.ops.detectors['prz'] = PhotonDepthDetector((0, 1), (2, 3), 128)
+        self.ops.detectors['prz'] = PhiZDetector((0, 1), (2, 3), 128)
         self.ops.limits.add(ShowersLimit(1234))
 
         self.i = Importer()
@@ -59,8 +58,8 @@ class TestImporter(unittest.TestCase):
         self.assertAlmostEqual(0.0, unc, 4)
 
         result = results['prz']
-        self.assertTrue(result.exists('Au La', True, False))
-        self.assertTrue(result.exists('Au Ma', True, False))
+        self.assertTrue(result.exists('Au La', True, True))
+        self.assertTrue(result.exists('Au Ma', True, True))
 
         self.assertEqual((128, 3), result.get('Au La').shape)
         self.assertEqual((128, 3), result.get('Au Ma').shape)

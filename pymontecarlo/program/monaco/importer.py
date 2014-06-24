@@ -30,11 +30,10 @@ from pyxray.transition import from_string
 # Local modules.
 from pymontecarlo.program.importer import Importer as _Importer, ImporterException
 
-from pymontecarlo.options.detector import \
-    PhotonIntensityDetector, PhotonDepthDetector
+from pymontecarlo.options.detector import PhotonIntensityDetector, PhiZDetector
 
 from pymontecarlo.results.result import \
-    PhotonKey, PhotonIntensityResult, PhotonDepthResult
+    PhotonKey, PhotonIntensityResult, PhiZResult
 
 # Globals and constants variables.
 
@@ -44,7 +43,7 @@ class Importer(_Importer):
         _Importer.__init__(self)
 
         self._importers[PhotonIntensityDetector] = self._import_photon_intensity
-        self._importers[PhotonDepthDetector] = self._import_photondepth
+        self._importers[PhiZDetector] = self._import_phi_z
 
     def _import(self, options, dirpath, *args, **kwargs):
         return self._run_importers(options, dirpath, *args, **kwargs)
@@ -71,7 +70,7 @@ class Importer(_Importer):
 
         return PhotonIntensityResult(intensities)
 
-    def _import_photondepth(self, options, name, detector, jobdir):
+    def _import_phi_z(self, options, name, detector, jobdir):
         prz_filepath = os.path.join(jobdir, 'phi_%s.csv' % name)
         if not os.path.exists(prz_filepath):
             raise ImporterException('Result file "phi_%s.csv" not found in job directory (%s)' % \
@@ -94,4 +93,4 @@ class Importer(_Importer):
             enf = np.array([rzs, values]).transpose()
             distributions[PhotonKey(transition, True, PhotonKey.P)] = enf
 
-        return PhotonDepthResult(distributions)
+        return PhiZResult(distributions)

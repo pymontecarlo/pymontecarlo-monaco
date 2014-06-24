@@ -36,8 +36,7 @@ from pymontecarlo.options.beam import PencilBeam
 from pymontecarlo.options.geometry import Substrate
 from pymontecarlo.options.particle import ELECTRON
 from pymontecarlo.options.limit import ShowersLimit
-from pymontecarlo.options.detector import \
-    PhotonIntensityDetector, PhotonDepthDetector
+from pymontecarlo.options.detector import PhotonIntensityDetector, PhiZDetector
 from pymontecarlo.options.model import \
     (ELASTIC_CROSS_SECTION, IONIZATION_CROSS_SECTION, IONIZATION_POTENTIAL,
      ENERGY_LOSS, MASS_ABSORPTION_COEFFICIENT)
@@ -57,7 +56,7 @@ class Exporter(_Exporter):
         self._geometry_exporters[Substrate] = self._export_geometry_substrate
 
         self._detector_exporters[PhotonIntensityDetector] = self._export_dummy
-        self._detector_exporters[PhotonDepthDetector] = self._export_dummy
+        self._detector_exporters[PhiZDetector] = self._export_dummy
 
         self._limit_exporters[ShowersLimit] = self._export_dummy
 

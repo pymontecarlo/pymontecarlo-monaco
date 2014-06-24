@@ -30,8 +30,7 @@ from pymontecarlo.options.beam import PencilBeam
 from pymontecarlo.options.material import Material
 from pymontecarlo.options.geometry import Substrate
 from pymontecarlo.options.limit import ShowersLimit
-from pymontecarlo.options.detector import \
-    PhotonIntensityDetector, PhotonDepthDetector
+from pymontecarlo.options.detector import PhotonIntensityDetector, PhiZDetector
 from pymontecarlo.options.model import \
     (ELASTIC_CROSS_SECTION, IONIZATION_CROSS_SECTION, IONIZATION_POTENTIAL,
      ENERGY_LOSS, MASS_ABSORPTION_COEFFICIENT)
@@ -44,7 +43,7 @@ class Converter(_Converter):
     MATERIALS = [Material]
     BEAMS = [PencilBeam]
     GEOMETRIES = [Substrate]
-    DETECTORS = [PhotonIntensityDetector, PhotonDepthDetector]
+    DETECTORS = [PhotonIntensityDetector, PhiZDetector]
     LIMITS = [ShowersLimit]
     MODELS = {ELASTIC_CROSS_SECTION: [ELASTIC_CROSS_SECTION.mott_czyzewski1990],
               IONIZATION_CROSS_SECTION: [IONIZATION_CROSS_SECTION.gryzinsky,
@@ -101,7 +100,7 @@ class Converter(_Converter):
         if not _Converter._convert_detectors(self, options):
             return False
 
-        for _key, det in options.detectors.iterclass(PhotonDepthDetector):
+        for _key, det in options.detectors.iterclass(PhiZDetector):
             if det.channels != 128:
                 self._warn("Number of channels of phi-rho-z detector set to 128")
 

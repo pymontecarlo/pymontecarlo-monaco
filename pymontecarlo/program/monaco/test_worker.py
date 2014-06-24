@@ -43,7 +43,7 @@ class TestWorker(TestCase):
 
         ops = Options('test')
         ops.beam = PencilBeam(5e3)
-        ops.geometry.material = \
+        ops.geometry.body.material = \
             Material({6: 0.4, 13: 0.6}, absorption_energy_eV={ELECTRON: 234.0})
         ops.detectors['xray'] = \
             PhotonIntensityDetector.annular(d2r(40.0), d2r(5.0))

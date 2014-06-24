@@ -49,7 +49,7 @@ class TestConverter(TestCase):
             opss = self.converter.convert(ops)
 
         # 6 warnings for the default models
-        self.assertEqual(6, len(ws))
+        self.assertEqual(5, len(ws))
         self.assertEqual(1, len(opss))
 
         # Test
